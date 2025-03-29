@@ -1,0 +1,11 @@
+Model Information:
+* title:	Dirt Ground
+* source:	https://sketchfab.com/3d-models/dirt-ground-ce6c6af8eec04c7f97044891cd1cc9c7
+* author:	Ludvig Risan (https://sketchfab.com/Ludvig_Risan)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Dirt Ground" (https://sketchfab.com/3d-models/dirt-ground-ce6c6af8eec04c7f97044891cd1cc9c7) by Ludvig Risan (https://sketchfab.com/Ludvig_Risan) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
