@@ -1,31 +1,55 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Video;
 using TMPro;
 
 public class Timer : MonoBehaviour
 {
     public TMP_Text timerText;
+    public AudioClip countdownSound; // Son pour le décompte
+    public VideoPlayer cinemaVideo; // Référence au VideoPlayer
+    private AudioSource audioSource; // Source audio pour jouer le son
     private float timer = 300f;
     private bool timerRunning = false;
     private Coroutine timerCoroutine;
 
     private void Start()
     {
-        // Uniquement mettre à jour l'affichage au début, sans démarrer le timer
+        audioSource = GetComponent<AudioSource>();
         UpdateTimerText();
+        GameObject cinemaObject = GameObject.FindGameObjectWithTag("cinema-video");
+        if (cinemaObject != null)
+        {
+            cinemaVideo = cinemaObject.GetComponent<VideoPlayer>();
+        }
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        // Vérifie si l'objet qui entre est spécifiquement XR Origin (XR Rig) ou un de ses enfants
-        if ((other.gameObject.name == "XR Origin (XR Rig)" || 
-             other.transform.IsChildOf(GameObject.Find("XR Origin (XR Rig)").transform)) && 
-            !timerRunning)
+        if (other.CompareTag("Player") && !timerRunning)
         {
-            Debug.Log("XR Rig détecté, démarrage du timer");
-            StartTimer();
+            StartCoroutine(StartCountdown());
         }
+    }
+
+    private IEnumerator StartCountdown()
+    {
+        if (audioSource != null && countdownSound != null)
+        {
+            audioSource.PlayOneShot(countdownSound);
+        }
+
+        for (int i = 3; i > 0; i--)
+        {
+            if (timerText != null)
+            {
+                timerText.text = $"Début dans\n{i}...";
+            }
+            yield return new WaitForSeconds(1f);
+        }
+
+        StartTimer();
     }
 
     public void StartTimer()
@@ -33,6 +57,13 @@ public class Timer : MonoBehaviour
         if (!timerRunning)
         {
             timerRunning = true;
+
+            // Démarre la vidéo si elle est assignée
+            if (cinemaVideo != null)
+            {
+                cinemaVideo.Play();
+            }
+
             timerCoroutine = StartCoroutine(RunTimer());
         }
     }
@@ -46,7 +77,6 @@ public class Timer : MonoBehaviour
             UpdateTimerText();
         }
         timerRunning = false;
-        Debug.Log("Timer terminé");
     }
 
     private void UpdateTimerText()
@@ -55,11 +85,7 @@ public class Timer : MonoBehaviour
         {
             int minutes = Mathf.FloorToInt(timer / 60);
             int seconds = Mathf.FloorToInt(timer % 60);
-            timerText.text = string.Format("Temps : {0:00}:{1:00}", minutes, seconds);
-        }
-        else
-        {
-            Debug.LogError("timerText n'est pas assigné dans l'inspecteur");
+            timerText.text = string.Format("Temps restant :\n{0:00}:{1:00}", minutes, seconds);
         }
     }
 }

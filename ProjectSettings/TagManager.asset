@@ -4,12 +4,10 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Plastique
   - Controller
-  - Verre
-  - Water
-  - no-recycle
-  - yes-recycle
+  - Concrete
+  - cinema-video
+  - obj-bouteille
   layers:
   - Default
   - TransparentFX
